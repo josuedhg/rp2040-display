@@ -1,0 +1,4 @@
+build/
+.cache/
+images/
+my_bg.c
