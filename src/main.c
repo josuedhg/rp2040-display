@@ -23,7 +23,6 @@ int main(void)
 
     lv_image_set_src(bg_img, &my_bg);
     lv_obj_center(bg_img);
-    lv_task_handler();
 
     while (1) {
         lv_task_handler();
