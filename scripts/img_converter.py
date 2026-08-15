@@ -29,15 +29,9 @@ with open(output_path, 'w') as f:
     f.write(f'const uint8_t {var_name}_map[] = {{\n')
     for idx, (r_val, g_val, b_val) in enumerate(get_pixels()):
 
-        # Scale to 5-bit Red, 6-bit Green, 5-bit Blue
-        r5 = r_val >> 3
-        g6 = g_val >> 2
-        b5 = b_val >> 3
+        val = ((r_val & 0xF8) << 8) | ((g_val & 0xFC) << 3) | (b_val >> 3)
 
-        byte_0 = (b5 << 3) | (g6 >> 3)
-        byte_1 = ((g6 & 0x07) << 5) | r5
-
-        f.write(f'0x{byte_0:02x}, 0x{byte_1:02x}, ')
+        f.write(f'0x{val & 0xFF:02x}, 0x{(val >> 8) & 0xFF:02x}, ')
         if idx % 8 == 7:
             f.write('\n')
     f.write('};\n\n')

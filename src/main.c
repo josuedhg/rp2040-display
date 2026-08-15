@@ -5,12 +5,6 @@
 
 LV_IMAGE_DECLARE(my_bg);
 
-#define FIX_COLOR(h) lv_color_hex( \
-    ( ((((h) >> 8) & 0x1C) << 3) | ((((h) >> 16) & 0xC0) >> 3) ) << 16 | \
-    ( ((((h) >> 16) & 0x38) << 2) | (((h) & 0xE0) >> 3) ) << 8 | \
-    ( (((h) & 0x18) << 3) | ((((h) >> 8) & 0xE0) >> 2) ) \
-)
-
 int main(void)
 {
     const struct device *display_dev = DEVICE_DT_GET(DT_CHOSEN(zephyr_display));

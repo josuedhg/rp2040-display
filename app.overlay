@@ -21,13 +21,15 @@
             
             mipi-max-frequency = <32000000>;
             mipi-mode = "MIPI_DBI_MODE_SPI_4WIRE";
+
+            rgb-is-inverted;
             
             width = <128>;
             height = <128>;
             x-offset = <2>;
             y-offset = <3>; 
             
-            madctl = <0xc0>;
+            madctl = <0xc8>;
             colmod = <0x05>;
             vmctr1 = <0x0e>;
             pwctr1 = [a2 02 84];
