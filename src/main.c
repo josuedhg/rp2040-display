@@ -6,9 +6,19 @@
 #include <zephyr/drivers/fuel_gauge.h>
 #include <lvgl.h>
 
-#include "control.h"
+#include "events.h"
 
 LV_IMAGE_DECLARE(my_bg);
+
+ZBUS_SUBSCRIBER_DEFINE(display_sub, 4);
+
+ZBUS_CHAN_DEFINE(
+        input_chan,
+        struct button_action,
+        NULL, NULL,
+        ZBUS_OBSERVERS(display_sub),
+        ZBUS_MSG_INIT(0)
+);
 
 const struct device *gauge_dev = DEVICE_DT_GET_ANY(maxim_max17048);
 
@@ -55,40 +65,44 @@ int main(void)
             FUEL_GAUGE_VOLTAGE_UV
         };
 
-        while (k_msgq_get(&btn_msgq, &current_action, K_NO_WAIT) == 0) {
-            switch (current_action.key_code) {
-                case INPUT_KEY_A:
-                    if (current_action.is_pressed) {
-                        lv_label_set_text(label, "INPUT A");
-                        lv_obj_remove_flag(label, LV_OBJ_FLAG_HIDDEN);
-                    } else {
-                        lv_obj_add_flag(label, LV_OBJ_FLAG_HIDDEN);
-                    }
-                    break;
-                case INPUT_KEY_B:
-                    if (current_action.is_pressed) {
-                        lv_label_set_text(label, "INPUT B");
-                        lv_obj_remove_flag(label, LV_OBJ_FLAG_HIDDEN);
-                    } else {
-                        lv_obj_add_flag(label, LV_OBJ_FLAG_HIDDEN);
-                    }
-                    break;
-                case INPUT_KEY_C:
-                    if (current_action.is_pressed) {
-                        lv_label_set_text(label, "INPUT C");
-                        lv_obj_remove_flag(label, LV_OBJ_FLAG_HIDDEN);
-                    } else {
-                        lv_obj_add_flag(label, LV_OBJ_FLAG_HIDDEN);
-                    }
-                    break;
-                case INPUT_KEY_R:
-                    if (current_action.is_pressed) {
-                        lv_label_set_text(label, "INPUT R");
-                        lv_obj_remove_flag(label, LV_OBJ_FLAG_HIDDEN);
-                    } else {
-                        lv_obj_add_flag(label, LV_OBJ_FLAG_HIDDEN);
-                    }
-                    break;
+        const struct zbus_channel *chan;
+        if (zbus_sub_wait(&display_sub, &chan, K_NO_WAIT) == 0) {
+            if (chan == &input_chan) {
+                zbus_chan_read(&input_chan, &current_action, K_NO_WAIT);
+                switch (current_action.key_code) {
+                    case INPUT_KEY_A:
+                        if (current_action.is_pressed) {
+                            lv_label_set_text(label, "INPUT A");
+                            lv_obj_remove_flag(label, LV_OBJ_FLAG_HIDDEN);
+                        } else {
+                            lv_obj_add_flag(label, LV_OBJ_FLAG_HIDDEN);
+                        }
+                        break;
+                    case INPUT_KEY_B:
+                        if (current_action.is_pressed) {
+                            lv_label_set_text(label, "INPUT B");
+                            lv_obj_remove_flag(label, LV_OBJ_FLAG_HIDDEN);
+                        } else {
+                            lv_obj_add_flag(label, LV_OBJ_FLAG_HIDDEN);
+                        }
+                        break;
+                    case INPUT_KEY_C:
+                        if (current_action.is_pressed) {
+                            lv_label_set_text(label, "INPUT C");
+                            lv_obj_remove_flag(label, LV_OBJ_FLAG_HIDDEN);
+                        } else {
+                            lv_obj_add_flag(label, LV_OBJ_FLAG_HIDDEN);
+                        }
+                        break;
+                    case INPUT_KEY_R:
+                        if (current_action.is_pressed) {
+                            lv_label_set_text(label, "INPUT R");
+                            lv_obj_remove_flag(label, LV_OBJ_FLAG_HIDDEN);
+                        } else {
+                            lv_obj_add_flag(label, LV_OBJ_FLAG_HIDDEN);
+                        }
+                        break;
+                }
             }
         }
 
