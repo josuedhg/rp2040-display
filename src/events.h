@@ -10,6 +10,12 @@ struct button_action {
     bool is_pressed;
 };
 
+struct battery_action {
+    uint16_t percentage;
+    bool has_error;
+};
+
 ZBUS_CHAN_DECLARE(input_chan);
+ZBUS_CHAN_DECLARE(battery_chan);
 
 #endif
