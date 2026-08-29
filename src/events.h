@@ -4,8 +4,13 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <zephyr/zbus/zbus.h>
+#include <zephyr/dt-bindings/input/input-event-codes.h>
 
 struct button_action {
+#define BUTTON_A INPUT_KEY_A
+#define BUTTON_B INPUT_KEY_B
+#define BUTTON_C INPUT_KEY_C
+#define BUTTON_RESET INPUT_KEY_R
     uint16_t key_code;
     bool is_pressed;
 };

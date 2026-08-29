@@ -2,7 +2,6 @@
 #include <zephyr/kernel.h>
 #include <zephyr/device.h>
 #include <zephyr/drivers/display.h>
-#include <zephyr/input/input.h>
 #include <lvgl.h>
 
 #include "events.h"
@@ -64,7 +63,7 @@ int main(void)
             if (chan == &input_chan) {
                 zbus_chan_read(&input_chan, &current_action, K_NO_WAIT);
                 switch (current_action.key_code) {
-                    case INPUT_KEY_A:
+                    case BUTTON_A:
                         if (current_action.is_pressed) {
                             lv_label_set_text(label, "INPUT A");
                             lv_obj_remove_flag(label, LV_OBJ_FLAG_HIDDEN);
@@ -72,7 +71,7 @@ int main(void)
                             lv_obj_add_flag(label, LV_OBJ_FLAG_HIDDEN);
                         }
                         break;
-                    case INPUT_KEY_B:
+                    case BUTTON_B:
                         if (current_action.is_pressed) {
                             lv_label_set_text(label, "INPUT B");
                             lv_obj_remove_flag(label, LV_OBJ_FLAG_HIDDEN);
@@ -80,7 +79,7 @@ int main(void)
                             lv_obj_add_flag(label, LV_OBJ_FLAG_HIDDEN);
                         }
                         break;
-                    case INPUT_KEY_C:
+                    case BUTTON_C:
                         if (current_action.is_pressed) {
                             lv_label_set_text(label, "INPUT C");
                             lv_obj_remove_flag(label, LV_OBJ_FLAG_HIDDEN);
@@ -88,7 +87,7 @@ int main(void)
                             lv_obj_add_flag(label, LV_OBJ_FLAG_HIDDEN);
                         }
                         break;
-                    case INPUT_KEY_R:
+                    case BUTTON_RESET:
                         if (current_action.is_pressed) {
                             lv_label_set_text(label, "INPUT R");
                             lv_obj_remove_flag(label, LV_OBJ_FLAG_HIDDEN);
