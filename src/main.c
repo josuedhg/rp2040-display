@@ -6,28 +6,9 @@
 #include <zephyr/drivers/fuel_gauge.h>
 #include <lvgl.h>
 
+#include "control.h"
+
 LV_IMAGE_DECLARE(my_bg);
-
-struct button_action {
-    uint16_t key_code;
-    bool is_pressed;
-};
-
-K_MSGQ_DEFINE_TYPE(btn_msgq, struct button_action, 10);
-
-static void input_cb(struct input_event *e, void *user_input)
-{
-    if (e->type == INPUT_EV_KEY) {
-        struct button_action action = {
-            .key_code = e->code,
-            .is_pressed = (e->value == 1),
-        };
-
-        k_msgq_put(&btn_msgq, &action, K_NO_WAIT);
-    }
-}
-
-INPUT_CALLBACK_DEFINE(NULL, input_cb, NULL);
 
 const struct device *gauge_dev = DEVICE_DT_GET_ANY(maxim_max17048);
 

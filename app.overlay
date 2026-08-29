@@ -46,7 +46,7 @@
         };
     };
 
-    buttons {
+    buttons: gpio-keys {
         compatible = "gpio-keys";
         debounce-interval-ms = <30>;
 

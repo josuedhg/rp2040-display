@@ -19,4 +19,4 @@ add_custom_command(
             my_bg
     DEPENDS ${IMAGE_IN} ${CMAKE_CURRENT_SOURCE_DIR}/scripts/img_converter.py
 )
-target_sources(app PRIVATE src/main.c ${IMAGE_OUT_C})
+target_sources(app PRIVATE src/main.c src/control.c ${IMAGE_OUT_C})
