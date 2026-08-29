@@ -23,4 +23,5 @@ target_sources(app PRIVATE
     src/main.c
     src/control.c
     src/battery.c
+    src/hmi.c
     ${IMAGE_OUT_C})
